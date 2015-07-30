@@ -7,8 +7,8 @@ class IntelmapChecker
     @passwd = passwd
     @auth = nil
     begin
-      @driver = Selenium::WebDriver.for :chrome, :switches => %w[--no-startup-window]
-      #@driver.manage.window.resize_to(100,100)
+      @driver = Selenium::WebDriver.for :chrome
+      @driver.manage.window.resize_to(100,100)
     rescue Exception => e
       puts e.message
       puts e.backtrace
