@@ -50,7 +50,6 @@ class IntelmapChecker
         data[:faction] = player_class[0]
         data[:username] = message[0]
         data[:comment] = message[1]
-        p data
         arr.push data
       end
       return arr
@@ -69,7 +68,6 @@ class IntelmapChecker
         data[:date] = timestamp
         data[:username] = message[0]
         data[:comment] = message[1]
-        p data
         arr.push data
        end
        return arr
@@ -98,18 +96,14 @@ class IntelmapChecker
 
           container.find_element(:id, "pi-tab-mod").click
           mods = container.find_elements(:class, "mod")
-          p mods.size
           mod_arr = Array.new
           mods.each do |mod|
             if mod.find_elements(:class, "mod_installer").size > 0
               mod_data = Hash.new
               if mod.find_elements(:class, "mod_name_common").size > 0
-                p  mod.find_element(:class, "mod_name_common").text
                 mod_data[:type] = mod.find_element(:class, "mod_name_common").text
                 mod_data[:class] = "common"
               elsif mod.find_elements(:class, "mod_name_rare").size > 0
-                p mod_data[:type] = mod.find_elements(:class, "mod_name_rare").size
-                p mod_data[:type] = mod.find_element(:class, "mod_name_rare").text
                 mod_data[:type] = mod.find_element(:class, "mod_name_rare").text
                 mod_data[:class] = "rare"
               elsif mod.find_elements(:class, "mod_name_very_rare").size > 0
