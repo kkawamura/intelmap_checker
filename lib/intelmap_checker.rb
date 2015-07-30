@@ -76,10 +76,11 @@ class IntelmapChecker
   def portal_details
     sleep 3
     portal = Hash.new
-      container = @driver.find_element(:id, "portal_details_container")
+      container = @driver.find_element(:id, "portal_info_windows")
       if container
         portal[:name] = container.find_element(:id, "portal_primary_title").text
         portal[:level] = container.find_element(:id, "portal_level").text
+        portal[:faction] = container.attribute("class").split(" ", 2)[0]
         portal[:owner] = container.find_element(:id, "portal_capture_details").text
         resonators = container.find_elements(:class, "resonator")
         reso_arr = Array.new
@@ -100,6 +101,8 @@ class IntelmapChecker
         mods.each do |mod|
           if mod.find_elements(:class, "mod_installer").size > 0
             mod_data = Hash.new
+            p mod.find_element(:class, "mod_installer").text
+            mod_data[:installer] = mod.find_element(:class, "mod_installer").text
             if mod.find_elements(:class, "mod_name_common").size > 0
               mod_data[:type] = mod.find_element(:class, "mod_name_common").text
               mod_data[:class] = "common"
