@@ -1,3 +1,3 @@
-module IntelmapChecker
-  VERSION = "0.0.1"
+class IntelmapChecker
+  VERSION = "0.0.2"
 end

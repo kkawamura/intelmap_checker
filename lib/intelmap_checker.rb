@@ -1,10 +1,7 @@
 require "intelmap_checker/version"
 require 'selenium-webdriver'
 
-module IntelmapChecker
-
-  class IntelmapChecker
-
+class IntelmapChecker
     def initialize(email, passwd)
       @email = email
       @passwd = passwd
@@ -130,6 +127,5 @@ module IntelmapChecker
     def shutdown
       @driver.quit
     end
-  end
 
 end
