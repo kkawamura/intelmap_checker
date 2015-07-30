@@ -21,7 +21,7 @@ Or install it yourself as:
     $ gem install intelmap_checker
 
 ## Setup
-You shold set-up selenium-webdriver and chrome webdriver.
+You should set-up selenium-webdriver and chrome driver.
 * http://www.rubydoc.info/gems/selenium-webdriver/
 * https://code.google.com/p/selenium/wiki/ChromeDriver
 
