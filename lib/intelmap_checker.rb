@@ -101,7 +101,6 @@ class IntelmapChecker
         mods.each do |mod|
           if mod.find_elements(:class, "mod_installer").size > 0
             mod_data = Hash.new
-            p mod.find_element(:class, "mod_installer").text
             mod_data[:installer] = mod.find_element(:class, "mod_installer").text
             if mod.find_elements(:class, "mod_name_common").size > 0
               mod_data[:type] = mod.find_element(:class, "mod_name_common").text
