@@ -74,48 +74,57 @@ class IntelmapChecker
   end
 
   def portal_details
-    sleep 3
+    sleep 5
     portal = Hash.new
       container = @driver.find_element(:id, "portal_info_windows")
       if container
-        portal[:name] = container.find_element(:id, "portal_primary_title").text
-        portal[:level] = container.find_element(:id, "portal_level").text
-        portal[:faction] = container.attribute("class").split(" ", 2)[0]
-        portal[:owner] = container.find_element(:id, "portal_capture_details").text
-        resonators = container.find_elements(:class, "resonator")
-        reso_arr = Array.new
-        resonators.each do |reso|
-          if reso.find_elements(:class, "resonator_owner").size > 0
-            reso_data = Hash.new
-            reso_data[:owner] = reso.find_element(:class, "resonator_owner").text
-            reso_data[:level] = reso.find_element(:class, "resonator_level").text
-            reso_arr.push reso_data
-          end
-        end
-        portal[:resonators] = reso_arr
-        reso_arr = Array.new
-
-        container.find_element(:id, "pi-tab-mod").click
-        mods = container.find_elements(:class, "mod")
-        mod_arr = Array.new
-        mods.each do |mod|
-          if mod.find_elements(:class, "mod_installer").size > 0
-            mod_data = Hash.new
-            mod_data[:installer] = mod.find_element(:class, "mod_installer").text
-            if mod.find_elements(:class, "mod_name_common").size > 0
-              mod_data[:type] = mod.find_element(:class, "mod_name_common").text
-              mod_data[:class] = "common"
-            elsif mod.find_elements(:class, "mod_name_rare").size > 0
-              mod_data[:type] = mod.find_element(:class, "mod_name_rare").text
-              mod_data[:class] = "rare"
-            elsif mod.find_elements(:class, "mod_name_very_rare").size > 0
-              mod_data[:type] = mod.find_element(:class, "mod_name_very_rare").text
-              mod_data[:class] = "very_rare"
+        if container.find_element(:id, "portal_primary_title").css_value("color") == "rgba(255, 255, 255, 1)"
+          portal[:name] = container.find_element(:id, "portal_primary_title").text
+          portal[:level] = container.find_element(:id, "portal_level").text
+          portal[:faction] = nil
+          portal[:owner] = nil
+          portal[:resonators] = []
+          portal[:mods] = []
+        else
+          portal[:name] = container.find_element(:id, "portal_primary_title").text
+          portal[:level] = container.find_element(:id, "portal_level").text
+          portal[:faction] = container.attribute("class").split(" ", 2)[0]
+          portal[:owner] = container.find_element(:id, "portal_capture_details").text
+          resonators = container.find_elements(:class, "resonator")
+          reso_arr = Array.new
+          resonators.each do |reso|
+            if reso.find_elements(:class, "resonator_owner").size > 0
+              reso_data = Hash.new
+              reso_data[:owner] = reso.find_element(:class, "resonator_owner").text
+              reso_data[:level] = reso.find_element(:class, "resonator_level").text
+              reso_arr.push reso_data
             end
-            mod_arr.push mod_data
           end
+          portal[:resonators] = reso_arr
+          reso_arr = Array.new
+
+          container.find_element(:id, "pi-tab-mod").click
+          mods = container.find_elements(:class, "mod")
+          mod_arr = Array.new
+          mods.each do |mod|
+            if mod.find_elements(:class, "mod_installer").size > 0
+              mod_data = Hash.new
+              mod_data[:installer] = mod.find_element(:class, "mod_installer").text
+              if mod.find_elements(:class, "mod_name_common").size > 0
+                mod_data[:type] = mod.find_element(:class, "mod_name_common").text
+                mod_data[:class] = "common"
+              elsif mod.find_elements(:class, "mod_name_rare").size > 0
+                mod_data[:type] = mod.find_element(:class, "mod_name_rare").text
+                mod_data[:class] = "rare"
+              elsif mod.find_elements(:class, "mod_name_very_rare").size > 0
+                mod_data[:type] = mod.find_element(:class, "mod_name_very_rare").text
+                mod_data[:class] = "very_rare"
+              end
+              mod_arr.push mod_data
+            end
+          end
+          portal[:mods] = mod_arr
         end
-        portal[:mods] = mod_arr
       end
     return portal
   end
